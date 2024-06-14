@@ -1,0 +1,61 @@
+<header>
+    <a routerLink="/">
+      <h1>Anderlandflix</h1>
+    </a>
+    <div class="searchBar" id="search">
+      <input
+        type="text"
+        placeholder="Search for Title..."
+        [(ngModel)]="searchQuery"
+      />
+    </div>
+    <button (click)="logout()" type="button">Log Out</button>
+  </header>
+  <section>
+    <div class="searchBar" id="searchMobile">
+      <input
+        type="text"
+        placeholder="Search for Title..."
+        [(ngModel)]="searchQuery"
+      />
+    </div>
+    <div class="content">
+      <div class="genre" *ngFor="let genre of genres">
+        <h2 *ngIf="filterBooksByGenre(genre).length > 0">{{ genre }}</h2>
+        <div *ngIf="filterBooksByGenre(genre).length > 0" class="genreRow">
+          <div
+            class="contentTile"
+            *ngFor="
+              let Book of filterBooksByGenre(genre)
+                | filterByTitle : searchQuery
+            "
+            (click)="showOverlay(Book)"
+          >
+            <div>
+              <img
+                [src]="Book.thumbnail_file_url"
+                alt="{{ Book.title }} thumbnail"
+                (contextmenu)="preventRightClick($event)"
+              />
+            </div>
+            <div>
+              <h3>{{ Book.title }}</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div *ngIf="selectedBook" class="overlay">
+    <button id="overlayCloseButton" (click)="closeOverlay()">Close</button>
+    <div class="overlayBox">
+      <img [src]="selectedBook.thumbnail_file_url" alt="Thumbnail" />
+      <div class="overlayRight">
+        <h3>{{ selectedBook.title }}</h3>
+        <p>{{ selectedBook.description }}</p>
+      </div>
+    </div>
+    <div class="overlayBottom">
+      <button (click)="editBook(selectedBook)">Edit Book</button>
+    </div>
+  </div>

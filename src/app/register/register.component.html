@@ -1,0 +1,40 @@
+<header>
+    <a routerLink="/" >
+        <h1>Wookie Bookstore</h1>
+    </a>
+  </header>
+  <section>
+      <div id="registerBox">
+          <h2>Registration</h2>
+      <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
+          <div class="registerInputBox">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" [(ngModel)]="formData.email" required>
+          </div>
+          <div class="alert" *ngIf="showErrorEmailAlert">
+              Please enter a valid email.
+          </div>
+          <div class="registerInputBox">
+            <label for="username">Name:</label>
+            <input type="text" id="username" name="username" [(ngModel)]="formData.username" required>
+          </div>
+          <div class="registerInputBox">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" [(ngModel)]="formData.password" required>
+          </div>
+          <div class="alert" *ngIf="showErrorPasswordAlert">
+              Minimum length 8 letters.
+           </div>
+          <div class="registerInputBox">
+            <label for="confirmPassword">Confirm password:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" [(ngModel)]="formData.confirmPassword" required>
+          </div>
+          <div class="alert" *ngIf="showErrorPasswordMatchAlert">
+              Passwords do not match.
+            </div>
+          <button type="submit" [disabled]="!registerForm.valid">Sign-up</button>
+        </form>
+       <p class="">Already have an account? Go to <a routerLink="/login" >Login</a></p> 
+      </div>
+  </section>
+  
