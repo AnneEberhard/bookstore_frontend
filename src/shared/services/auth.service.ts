@@ -100,30 +100,4 @@ export class AuthService {
     });
   }
 
-/**
- * sends email-info to backend in case of forgotten password
- * @param {string} email - user email address
- */
-  public forgot(email: string) {
-    const url = environment.baseUrl + '/forgot/';
-    const body = {
-      "email": email
-    };
-    return lastValueFrom(this.http.post(url, body));
-  }
-
-/**
- * sends new password to backend in case of forgotten password
- * @param {string} key - url for backend including query params uid and token
- * @param {string} password - new set password
- */
-public reset(key:string, password:string) {
-  const url = environment.baseUrl + key;
-  console.log(url);
-  const body = {
-    "password": password
-  };
-  return lastValueFrom(this.http.post(url, body));
-}
-
 }

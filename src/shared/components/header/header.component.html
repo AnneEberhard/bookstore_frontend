@@ -1,1 +1,6 @@
-<p>header works!</p>
+<header>
+    <a routerLink="/" >
+        <h1>Wookie Books</h1>
+    </a>
+    <button *ngIf="login" (click)="logout()" type="button">Log Out</button>
+</header>

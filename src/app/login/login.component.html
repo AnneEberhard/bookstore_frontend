@@ -1,1 +1,13 @@
-<p>login works!</p>
+<section>
+    <div id="loginBox">
+      <h2>Log In</h2>
+      <form #form="ngForm" (ngSubmit)="login()">
+        <input required name="username" [(ngModel)]="username" id="username" placeholder="Username" />
+        <input required type="password" name="password" [(ngModel)]="password" id="password" placeholder="Password" />
+        <button type="submit" [disabled]="!form.valid">Log in</button>
+      </form>
+      <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+  
+      <p>New at Wookie Books? <a routerLink="/register"><b>Sign up now!</b></a></p>
+    </div>
+</section>

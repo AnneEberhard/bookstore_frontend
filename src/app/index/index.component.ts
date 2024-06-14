@@ -18,28 +18,9 @@ export class IndexComponent implements OnInit{
   searchQuery: string = '';
   selectedBook: Book | null = null;
 
-  constructor(public authService: AuthService, private router: Router,public backend: BackendService,) {
+  constructor(public authService: AuthService, private router: Router, public backend: BackendService) {
   }
-    /**
-    * handles logout in the frontend
-    * token is removed from sessionStorage
-    * dealing with backend via auth.service
-    * refers to login page
-    * @remarks
-    * sessionStorage used instead of localStorage to avoid blocking
-  */
-  async logout() {
-    const authToken = sessionStorage.getItem('token');
-    if (authToken) {
-      try {
-        await this.authService.logout(authToken);
-        this.router.navigate(['/login']);
-        sessionStorage.removeItem('token');
-      } catch (error: any) {
-        console.log('Error at logout:', error);
-      }
-    }
-  }
+
 
   /**
    * fetches Book Data on initialisation
