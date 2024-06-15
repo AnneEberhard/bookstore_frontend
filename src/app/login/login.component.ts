@@ -21,7 +21,7 @@ login(): void {
   this.authService.login(this.username, this.password).subscribe({
     next: (response) => {
       this.authService.setTokens(response.access, response.refresh);
-      this.router.navigate(['/dashboard']);  // oder eine andere geschützte Seite
+      this.router.navigate(['/']); 
     },
     error: (error) => {
       this.errorMessage = 'Login failed. Please check your username and password.';

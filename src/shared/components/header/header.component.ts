@@ -9,29 +9,52 @@ import { AuthService } from 'src/shared/services/auth.service';
 })
 export class HeaderComponent {
 
-  login = this.authService.isLoggedIn;
+  login: boolean = false;
 
   constructor(public authService: AuthService, private router: Router) {
   }
 
-    /**
-    * handles logout in the frontend
-    * token is removed 
-    * dealing with backend via auth.service
-    * refers to login page
-    * @remarks
-    * sessionStorage used instead of localStorage to avoid blocking
-  */
-    async logout() {
-      const authToken = sessionStorage.getItem('token');
-      if (authToken) {
-        try {
-          await this.authService.logout();
-          this.router.navigate(['/login']);
-          sessionStorage.removeItem('token');
-        } catch (error: any) {
-          console.log('Error at logout:', error);
-        }
-      }
+  /**
+  * handles logout in the frontend
+  * token is removed 
+  * dealing with backend via auth.service
+  * refers to login page
+  * @remarks
+  * sessionStorage used instead of localStorage to avoid blocking
+*/
+  clicklogout() {
+    this.hideMenu();
+    this.authService.logout();
+  }
+
+
+  clickLogin() {
+    this.hideMenu();
+    this.router.navigate(['/login']);
+  }
+
+  clickAddBook() {
+    this.hideMenu();
+    this.router.navigate(['/']);
+  }
+
+  async showMenu() {
+    await this.checkLogStatus();
+    let nav = document.getElementById('nav')
+    if (nav) {
+      nav.classList.add('showNav')
     }
+  }
+
+  hideMenu() {
+    let nav = document.getElementById('nav')
+    if (nav) {
+      nav.classList.remove('showNav')
+    }
+  }
+
+  async checkLogStatus() {
+    let status = await this.authService.getWookielogin();
+    this.login = (status === 'True');
+  }
 }

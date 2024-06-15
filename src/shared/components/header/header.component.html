@@ -2,5 +2,11 @@
     <a routerLink="/" >
         <h1>Wookie Books</h1>
     </a>
-    <button *ngIf="login" (click)="logout()" type="button">Log Out</button>
+    <button (click)="showMenu()" type="button">Menu</button>
+    <nav id="nav">
+        <div class="close" (click)="hideMenu()">X</div>
+        <button *ngIf="login" (click)="clickAddBook()" type="button">Add Book</button>
+        <button *ngIf="login" (click)="clicklogout()" type="button">Log Out</button>
+        <button *ngIf="!login" (click)="clickLogin()" type="button">Log In</button>
+    </nav>    
 </header>

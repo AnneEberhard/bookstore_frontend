@@ -1,3 +1,40 @@
 header {
     background-color: rgb(14,16,19);
 }
+
+button {
+    background-color:rgba(78, 82, 87, 0.5);
+
+    &:hover {
+        background-color: rgba(39, 40, 42, 0.5);
+        font-weight: 600;
+    }
+}
+
+nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 32px;
+    position: absolute;
+    top:2px;
+    right:0;
+    background-color: rgb(14,16,19);
+    border: 1px white solid;
+    transform: translateX(301px); 
+    transition: all 225ms ease-in-out; 
+    min-width: 110px;
+}
+
+.showNav { 
+    transform: translateX(0); 
+  }
+
+.close {
+    text-align: right;
+    cursor:pointer;
+
+    &:hover{
+        font-weight: bold;
+    }
+}

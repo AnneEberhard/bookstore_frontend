@@ -7,10 +7,6 @@ img {
     }
   }
   
-  #searchMobile {
-    display: none;
-  }
-  
   .content {
     flex-direction: column;
     display: flex;
@@ -33,7 +29,7 @@ img {
     gap: 16px;
     overflow-x: scroll;
     width: 100%;
-    align-items: center;
+    align-items: flex-start;
   }
   
   .contentTile {
@@ -41,12 +37,14 @@ img {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    max-width: 150px;
   }
   
   .searchBar {
     height: 100%;
     display: flex;
     align-items: center;
+    margin-top: 8px;
     input {
       min-width: 16px;
       border-radius: 0.25rem;
@@ -80,6 +78,7 @@ img {
   .overlayBox {
     display: flex;
     justify-content: space-around;
+    align-items: center;
     gap: 16px;
   }
   
