@@ -15,15 +15,17 @@ export class LoginComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
 /**
-* starts login, sets storage token in case of success and renders errors in case of failure
+* starts login and renders errors in case of failure
 */
-  async login() {
-      try {
-        let resp:any = await this.authService.login(this.username, this.password);
-        sessionStorage.setItem('token', resp['token']);
-        this.router.navigate(['/main'])
-      } catch (error:any) {
-        this.errorMessage = 'Error logging in. Please check your login information.';
-      }
+login(): void {
+  this.authService.login(this.username, this.password).subscribe({
+    next: (response) => {
+      this.authService.setTokens(response.access, response.refresh);
+      this.router.navigate(['/dashboard']);  // oder eine andere geschützte Seite
+    },
+    error: (error) => {
+      this.errorMessage = 'Login failed. Please check your username and password.';
     }
+  });
+}
 }

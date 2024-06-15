@@ -4,13 +4,15 @@ import { IndexComponent } from './index/index.component';
 import { LegalComponent } from './legal/legal.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { AuthGuard } from 'src/shared/services/auth.guard';
 
 const routes: Routes = [
   { path: '', component: IndexComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'imprint', component: LegalComponent },
+  { path: 'legal', component: LegalComponent },
   { path: 'main', component: IndexComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'add-bool', component: IndexComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

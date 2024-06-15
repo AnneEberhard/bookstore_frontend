@@ -37,7 +37,7 @@ export class BackendService {
  * handles getting Books from the backend
  */
   getBooks(): Observable<Book[]> {
-    const url = environment.baseUrl + `/Books/`;
+    const url = this.bookUrl;
     return this.http.get<Book[]>(url);
   }
 

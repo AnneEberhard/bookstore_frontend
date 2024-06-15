@@ -69,13 +69,49 @@ export class AuthService {
     return this.http.post<any>(url, userData);
   }
 
-/**
+
+  login(username: string, password: string): Observable<any> {
+    return this.http.post('/token/', { username, password });
+  }
+
+  setTokens(accessToken: string, refreshToken: string): void {
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
+  }
+
+  getAccessToken(): string | null {
+    return localStorage.getItem('accessToken');
+  }
+
+  getRefreshToken(): string | null {
+    return localStorage.getItem('refreshToken');
+  }
+
+  logout(): void {
+    const refreshToken = this.getRefreshToken();
+    this.http.post('/token/blacklist/', { refresh_token: refreshToken }).subscribe({
+      next: () => {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        console.error('Logout failed', err);
+        // Fallback: Trotzdem Token entfernen
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        this.router.navigate(['/login']);
+      }
+    });
+  }
+
+  /**
  * handles user login in backend
  * @param {string} email - user email
  * @param {string} password - user password
  */
-  public login(email: string, password: string) {
-    const url = environment.baseUrl + '/login/';
+  public login2(email: string, password: string) {
+    const url = environment.baseUrl + '/token/';
     const body = {
       "email": email,
       "password": password
@@ -83,12 +119,11 @@ export class AuthService {
     return lastValueFrom(this.http.post(url, body));
   }
 
-
 /**
  * handles user logout in backend
  * @param {string} authToken - token from sessionStorage
  */
-  async logout(authToken: string) {
+  async logout2(authToken: string) {
     const url = environment.baseUrl + `/logout/`;
     await fetch(url, {
       method: "POST",

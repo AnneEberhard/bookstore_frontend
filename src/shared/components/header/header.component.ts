@@ -26,7 +26,7 @@ export class HeaderComponent {
       const authToken = sessionStorage.getItem('token');
       if (authToken) {
         try {
-          await this.authService.logout(authToken);
+          await this.authService.logout();
           this.router.navigate(['/login']);
           sessionStorage.removeItem('token');
         } catch (error: any) {

@@ -15,17 +15,31 @@ export type BookGenre = "Dystopia" | "Fantasy" | "Historical" | "Spy" | "Contemp
 
 
 export interface Book {
-    title: string;
-    created_at?: string;
-    description: string;
-    genre: BookGenre;
-    id?: number;
-    thumbnail_file_url: string;
+  id?: number;
+  created_at?: string;
+  title: string;
+  url_title: string;
+  description: string;
+  cover_image: string;
+  genre: BookGenre;
+  is_published: boolean;
+  author: CustomUser
 }
 
 
 export interface User {
-    name: string;
-    email: string;
-    password?: string;
+  name: string;
+  email: string;
+  password?: string;
+}
+
+
+export interface CustomUser {
+  id: number;
+  author_pseudonym: string;
+  username?: string;
+  first_name?: string;
+  last_name?: string;
+  email?: string;
+  password?: string;
 }

@@ -12,7 +12,7 @@ import { Book, BookGenre } from 'src/shared/services/models.service';
 })
 export class IndexComponent implements OnInit{
 
-  Books: any[] = [];
+  books: any[] = [];
   genres: BookGenre[] =  ['Dystopia', 'Fantasy', 'Historical', 'Spy', 'Contemporary'];
   selectedGenre: BookGenre | null = null;
   searchQuery: string = '';
@@ -29,7 +29,7 @@ export class IndexComponent implements OnInit{
   ngOnInit() {
     this.backend.fetchBookData().subscribe(
       (data: Book[]) => {
-        this.Books = data;
+        this.books = data;
       }
     );
 
@@ -41,9 +41,9 @@ export class IndexComponent implements OnInit{
   */
   filterBooksByGenre(genre: BookGenre | null): Book[] {
     if (!genre) {
-      return this.Books;
+      return this.books;
     }
-    return this.Books.filter(Book => Book.genre === genre);
+    return this.books.filter(book => book.genre === genre);
   }
 
 

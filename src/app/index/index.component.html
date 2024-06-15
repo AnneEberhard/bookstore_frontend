@@ -13,20 +13,20 @@
           <div
             class="contentTile"
             *ngFor="
-              let Book of filterBooksByGenre(genre)
+              let book of filterBooksByGenre(genre)
                 | filterByTitle : searchQuery
             "
-            (click)="showOverlay(Book)"
+            (click)="showOverlay(book)"
           >
             <div>
               <img
-                [src]="Book.thumbnail_file_url"
-                alt="{{ Book.title }} thumbnail"
+                [src]="book.cover_image"
+                alt="{{ book.title }} Cover"
                 (contextmenu)="preventRightClick($event)"
               />
             </div>
             <div>
-              <h3>{{ Book.title }}</h3>
+              <h3>{{ book.title }}</h3>
             </div>
           </div>
         </div>
@@ -36,7 +36,7 @@
   <div *ngIf="selectedBook" class="overlay">
     <button id="overlayCloseButton" (click)="closeOverlay()">Close</button>
     <div class="overlayBox">
-      <img [src]="selectedBook.thumbnail_file_url" alt="Thumbnail" />
+      <img [src]="selectedBook.cover_image" alt="Cover" />
       <div class="overlayRight">
         <h3>{{ selectedBook.title }}</h3>
         <p>{{ selectedBook.description }}</p>
