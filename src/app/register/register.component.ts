@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { take } from 'rxjs';
 import { AuthService } from 'src/shared/services/auth.service';
+import { CustomUser } from 'src/shared/services/models.service';
 
 @Component({
   selector: 'app-register',
@@ -11,17 +13,18 @@ export class RegisterComponent {
   showErrorEmailAlert: boolean = false;
   showErrorPasswordAlert: boolean = false;
   showErrorPasswordMatchAlert: boolean = false;
-  messageHeader: string = 'Success';
-  messageText: string = 'lorem ipseum';
+  messageHeader: string = '';
+  messageText: string = '';
+  confirmPassword: string ='';
+  success: boolean = false;
 
-  formData = {
-    email: '',
+  formData: CustomUser = {
     username: '',
+    author_pseudonym: '',
     first_name: '',
     last_name: '',
-    author_pseudonym: '',
-    password: '',
-    confirmPassword: ''
+    email: '',
+    password: ''
   };
 
   constructor(private authService: AuthService) { }
@@ -33,13 +36,26 @@ export class RegisterComponent {
 */
   onSubmit(form: NgForm) {
     if (this.checkForm(form)) {
-      const userData = {
-        email: this.formData.email,
-        username: this.formData.username,
-        password: this.formData.password
-      };
-      this.authService.registerUser(userData)
-    }
+      this.authService.register(this.formData).pipe(take(1))
+      .subscribe({
+        next: (response) => {
+          console.log('User registered successfully:', response);
+          this.messageHeader = 'Success';
+          this.messageText = 'User registered successfully';
+          this.success = true;
+      },    
+        error: (err) => {
+          console.error('Registration failed:', err);
+          this.messageHeader = 'Failure';
+          this.success = false;
+          if (err.status === 400 && err.error && err.error.username) {
+            this.messageText = err.error.username[0];
+          } else {
+            this.messageText = 'Registration failed. Please try again.';
+          }
+        }
+    });  };
+    this.showOverlay();
   }
 
 
@@ -58,7 +74,7 @@ export class RegisterComponent {
         this.renderAlert("password");
         return false;
       }
-      if (this.formData.password !== this.formData.confirmPassword) {
+      if (this.formData.password !== this.confirmPassword) {
         this.renderAlert("passwordMatch");
         return false;
       }
@@ -123,13 +139,19 @@ export class RegisterComponent {
   * @param {Book} Book Book Data from the backend for this specific Book
   */
     showOverlay(): void {
-      
+      let div = document.getElementById('overlay')
+      if (div) {
+        div.classList.remove('dNone')
+      }
     }
   
     /**
     * closes overlay
     */
     closeOverlay(): void {
-      
+      let div = document.getElementById('overlay')
+      if (div) {
+        div.classList.add('dNone')
+      }
     }
 }

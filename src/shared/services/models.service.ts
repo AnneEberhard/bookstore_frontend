@@ -35,11 +35,11 @@ export interface User {
 
 
 export interface CustomUser {
-  id: number;
-  author_pseudonym: string;
-  username?: string;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  password?: string;
+  id?: number;
+  author_pseudonym?: string;
+  username: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  password: string;
 }

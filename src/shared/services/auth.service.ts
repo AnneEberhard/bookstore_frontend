@@ -1,8 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, lastValueFrom, take } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { CustomUser } from './models.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,35 +16,12 @@ export class AuthService {
   
 
 /**
- * logic around handling registration of user in the backend
- * @param {any} userData - user info needed for regstration in backend
- * refers to the confirmation page next
- * containg the info whether regstration worked or not (s. confirmation component)
+ * registers user register in backend
+ * @param {CustomUser} user - user info needed for regstration in backend
  */
-  public registerUser(userData: any) {
-    this.registerUserinBackend(userData).pipe(take(1))
-      .subscribe({
-        next: (response) => {
-          this.router.navigateByUrl(`/confirmation?data=${JSON.stringify(response)}`);
-        },
-        error: (err) => {
-          if (err instanceof HttpErrorResponse) {
-            this.router.navigateByUrl(`/confirmation?data=${JSON.stringify(err.error)}`);
-          } else {
-            console.error('An error occurred:', err);
-            alert('An error occurred!');
-          }
-        }
-      });
-  }
-
-/**
- * handles user register in backend
- * @param {any} userData - user info needed for regstration in backend
- */
-  registerUserinBackend(userData: any): Observable<any> {
+  register(user: CustomUser): Observable<any> {
     const url = environment.baseUrl + '/register/';
-    return this.http.post<any>(url, userData);
+    return this.http.post<any>(url, user);
   }
 
   /**

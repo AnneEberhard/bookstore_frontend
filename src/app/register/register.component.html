@@ -47,6 +47,7 @@
         </div>
       </div>
       <div class="registerInputRow">
+        <div class="withAlert">
         <div class="registerInputBox">
           <label for="email">Email:</label>
           <input
@@ -59,9 +60,10 @@
         </div>
         <div class="alert" *ngIf="showErrorEmailAlert">
           Please enter a valid email.
-        </div>
+        </div></div>
       </div>
       <div class="registerInputRow">
+        <div class="withAlert">
         <div class="registerInputBox">
           <label for="password">Password:</label>
           <input
@@ -74,20 +76,21 @@
         </div>
         <div class="alert" *ngIf="showErrorPasswordAlert">
           Minimum length 8 letters.
-        </div>
+        </div></div>
+        <div class="withAlert">
         <div class="registerInputBox">
           <label for="confirmPassword">Confirm password:</label>
           <input
             type="password"
             id="confirmPassword"
             name="confirmPassword"
-            [(ngModel)]="formData.confirmPassword"
+            [(ngModel)]="confirmPassword"
             required
           />
         </div>
         <div class="alert" *ngIf="showErrorPasswordMatchAlert">
           Passwords do not match.
-        </div>
+        </div></div>
     </div>
       <button type="submit" [disabled]="!registerForm.valid">Sign-up</button>
     </form>
@@ -95,13 +98,14 @@
       Already have an account? Go to <a routerLink="/login">Login</a>
     </p>
   </div>
-  <div class="overlay dNone">
+  <div id="overlay" class="overlay dNone">
     <div class="overlayBox">
       <h3>{{ messageHeader }}</h3>
       <p>{{ messageText }}</p>
     </div>
     <div class="overlayBottom">
-      <a routerLink="/login">Go To Login</a>
+      <a *ngIf="success" routerLink="/login">Go To Login</a>
+      <button *ngIf="!success" (click)="closeOverlay()">Try Again</button>
     </div>
   </div>
 
