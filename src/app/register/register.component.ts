@@ -11,10 +11,15 @@ export class RegisterComponent {
   showErrorEmailAlert: boolean = false;
   showErrorPasswordAlert: boolean = false;
   showErrorPasswordMatchAlert: boolean = false;
+  messageHeader: string = 'Success';
+  messageText: string = 'lorem ipseum';
 
   formData = {
     email: '',
     username: '',
+    first_name: '',
+    last_name: '',
+    author_pseudonym: '',
     password: '',
     confirmPassword: ''
   };
@@ -111,6 +116,20 @@ export class RegisterComponent {
     } else if (alertType === 'passwordMatch') {
       this.showErrorPasswordMatchAlert = true;
     }
-
   }
+
+    /**
+  * shows overlay with Book details
+  * @param {Book} Book Book Data from the backend for this specific Book
+  */
+    showOverlay(): void {
+      
+    }
+  
+    /**
+    * closes overlay
+    */
+    closeOverlay(): void {
+      
+    }
 }

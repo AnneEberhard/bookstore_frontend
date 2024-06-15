@@ -80,7 +80,7 @@ export class AuthService {
   logout(): void {
     const refreshToken = this.getRefreshToken();
     const url = environment.baseUrl + '/token/blacklist/';
-    this.http.post(url, { refresh_token: refreshToken }).subscribe({
+    this.http.post(url, { refresh: refreshToken }).subscribe({
       next: () => {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');

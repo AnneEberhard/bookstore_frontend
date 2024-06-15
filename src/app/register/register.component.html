@@ -1,35 +1,108 @@
-  <section>
-      <div id="registerBox">
-          <h2>Registration</h2>
-      <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
-          <div class="registerInputBox">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" [(ngModel)]="formData.email" required>
-          </div>
-          <div class="alert" *ngIf="showErrorEmailAlert">
-              Please enter a valid email.
-          </div>
-          <div class="registerInputBox">
-            <label for="username">Name:</label>
-            <input type="text" id="username" name="username" [(ngModel)]="formData.username" required>
-          </div>
-          <div class="registerInputBox">
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" [(ngModel)]="formData.password" required>
-          </div>
-          <div class="alert" *ngIf="showErrorPasswordAlert">
-              Minimum length 8 letters.
-           </div>
-          <div class="registerInputBox">
-            <label for="confirmPassword">Confirm password:</label>
-            <input type="password" id="confirmPassword" name="confirmPassword" [(ngModel)]="formData.confirmPassword" required>
-          </div>
-          <div class="alert" *ngIf="showErrorPasswordMatchAlert">
-              Passwords do not match.
-            </div>
-          <button type="submit" [disabled]="!registerForm.valid">Sign-up</button>
-        </form>
-       <p class="">Already have an account? Go to <a routerLink="/login" >Login</a></p> 
+<section>
+  <div id="registerBox">
+    <h2>Registration</h2>
+    <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
+      <div class="registerInputRow">
+        <div class="registerInputBox">
+          <label for="username">User name:</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            [(ngModel)]="formData.username"
+            required
+          />
+        </div>
+        <div class="registerInputBox">
+          <label for="author_pseudonym">Author pseudonym:</label>
+          <input
+            type="text"
+            id="author_pseudonym"
+            name="author_pseudonym"
+            [(ngModel)]="formData.author_pseudonym"
+            required
+          />
+        </div>
       </div>
-  </section>
-  
+      <div class="registerInputRow">
+        <div class="registerInputBox">
+          <label for="first_name">First name:</label>
+          <input
+            type="text"
+            id="irst_name"
+            name="irst_name"
+            [(ngModel)]="formData.first_name"
+            required
+          />
+        </div>
+        <div class="registerInputBox">
+          <label for="last_name">Last name:</label>
+          <input
+            type="text"
+            id="last_name"
+            name="last_name"
+            [(ngModel)]="formData.last_name"
+            required
+          />
+        </div>
+      </div>
+      <div class="registerInputRow">
+        <div class="registerInputBox">
+          <label for="email">Email:</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            [(ngModel)]="formData.email"
+            required
+          />
+        </div>
+        <div class="alert" *ngIf="showErrorEmailAlert">
+          Please enter a valid email.
+        </div>
+      </div>
+      <div class="registerInputRow">
+        <div class="registerInputBox">
+          <label for="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            [(ngModel)]="formData.password"
+            required
+          />
+        </div>
+        <div class="alert" *ngIf="showErrorPasswordAlert">
+          Minimum length 8 letters.
+        </div>
+        <div class="registerInputBox">
+          <label for="confirmPassword">Confirm password:</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            [(ngModel)]="formData.confirmPassword"
+            required
+          />
+        </div>
+        <div class="alert" *ngIf="showErrorPasswordMatchAlert">
+          Passwords do not match.
+        </div>
+    </div>
+      <button type="submit" [disabled]="!registerForm.valid">Sign-up</button>
+    </form>
+    <p class="">
+      Already have an account? Go to <a routerLink="/login">Login</a>
+    </p>
+  </div>
+  <div class="overlay dNone">
+    <div class="overlayBox">
+      <h3>{{ messageHeader }}</h3>
+      <p>{{ messageText }}</p>
+    </div>
+    <div class="overlayBottom">
+      <a routerLink="/login">Go To Login</a>
+    </div>
+  </div>
+
+</section>
