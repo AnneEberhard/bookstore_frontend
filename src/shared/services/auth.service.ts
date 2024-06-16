@@ -1,15 +1,16 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CustomUser } from './models.service';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  
+
   constructor(private http: HttpClient, private router: Router) { 
     const token = localStorage.getItem('accessToken');
   }
@@ -31,7 +32,7 @@ export class AuthService {
  */
   login(username: string, password: string): Observable<any> {
     const url = environment.baseUrl + '/token/';
-    return this.http.post(url, { username, password });
+    return this.http.post<CustomUser>(url, { username, password });
   }
 
   setTokens(accessToken: string, refreshToken: string): void {
@@ -52,6 +53,10 @@ export class AuthService {
     return localStorage.getItem('wookielogin');
   }
 
+  getUser(): string | null {
+    return localStorage.getItem('wookielogin');
+  }
+
   /**
  * handles user logout in front and backend
  */
@@ -63,6 +68,7 @@ export class AuthService {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('wookielogin');
+        localStorage.removeItem('user');
         this.router.navigate(['/login']);
       },
       error: (err) => {
@@ -70,6 +76,7 @@ export class AuthService {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('wookielogin');
+        localStorage.removeItem('user');
         this.router.navigate(['/login']);
       }
     });

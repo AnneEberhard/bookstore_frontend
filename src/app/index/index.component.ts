@@ -12,7 +12,7 @@ import { Book, BookGenre } from 'src/shared/services/models.service';
 })
 export class IndexComponent implements OnInit{
 
-  books: any[] = [];
+  books: Book[] = [];
   genres: BookGenre[] =  ['Dystopia', 'Fantasy', 'Historical', 'Spy', 'Contemporary'];
   selectedGenre: BookGenre | null = null;
   searchQuery: string = '';

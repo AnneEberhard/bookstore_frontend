@@ -11,26 +11,19 @@ export class ModelsService {
  * this service delacres all models used in the frontend
  */
 
-export type BookGenre = "Dystopia" | "Fantasy" | "Historical" | "Spy" | "Contemporary";
+export type BookGenre = "Dystopia" | "Fantasy" | "Historical" | "Spy" | "Contemporary" | "Unclassified";
 
 
 export interface Book {
   id?: number;
   created_at?: string;
   title: string;
-  url_title: string;
+  url_title?: string;
   description: string;
-  cover_image: string;
+  cover_image?: File;
   genre: BookGenre;
   is_published: boolean;
   author: CustomUser
-}
-
-
-export interface User {
-  name: string;
-  email: string;
-  password?: string;
 }
 
 

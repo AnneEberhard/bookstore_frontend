@@ -135,8 +135,7 @@ export class RegisterComponent {
   }
 
     /**
-  * shows overlay with Book details
-  * @param {Book} Book Book Data from the backend for this specific Book
+  * shows overlay
   */
     showOverlay(): void {
       let div = document.getElementById('overlay')

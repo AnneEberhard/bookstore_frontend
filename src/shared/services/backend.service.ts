@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, catchError, of, tap } from 'rxjs';
 import { AuthService } from './auth.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Book, BookGenre } from './models.service';
 
@@ -11,10 +11,10 @@ import { Book, BookGenre } from './models.service';
 })
 export class BackendService {
 
-  bookUrl = environment.baseUrl + '/books/';
+  bookUrl = environment.baseUrl + '/books';
   books: Book[] = [];
 
-  constructor(private http: HttpClient, private router: Router, private auth: AuthService) { }
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
 
 /**
  * Logic around getting content info from the backend
@@ -55,4 +55,33 @@ export class BackendService {
     }
     return filteredBooks;
   }
+
+
+  etBooks(): Observable<Book[]> {
+    return this.http.get<Book[]>(this.bookUrl);
+  }
+
+  getBook(id: number): Observable<Book> {
+    return this.http.get<Book>(`${this.bookUrl}${id}/`);
+  }
+
+  createBook(formData: FormData): Observable<any> {
+    const url = `${this.bookUrl}/create/`;
+    const accessToken = localStorage.getItem('accessToken');
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${accessToken}`
+    });
+
+    return this.http.post<any>(url, formData, { headers });
+  }
+
+  updateBook(id: number, book: Book): Observable<Book> {
+    return this.http.put<Book>(`${this.bookUrl}${id}/edit/`, book);
+  }
+
+  deleteBook(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.bookUrl}${id}/delete/`);
+  }
+
 }

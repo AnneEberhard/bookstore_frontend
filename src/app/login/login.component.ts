@@ -21,6 +21,7 @@ login(): void {
   this.authService.login(this.username, this.password).subscribe({
     next: (response) => {
       this.authService.setTokens(response.access, response.refresh);
+      localStorage.setItem('user', this.username);
       this.router.navigate(['/']); 
     },
     error: (error) => {

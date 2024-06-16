@@ -10,6 +10,7 @@ import { AuthService } from 'src/shared/services/auth.service';
 export class HeaderComponent {
 
   login: boolean = false;
+  username: string | null = '';
 
   constructor(public authService: AuthService, private router: Router) {
   }
@@ -35,7 +36,7 @@ export class HeaderComponent {
 
   clickAddBook() {
     this.hideMenu();
-    this.router.navigate(['/']);
+    this.router.navigate(['/book-add']);
   }
 
   async showMenu() {
@@ -55,6 +56,7 @@ export class HeaderComponent {
 
   async checkLogStatus() {
     let status = await this.authService.getWookielogin();
+    this.username = localStorage.getItem('user');
     this.login = (status === 'True');
   }
 }
