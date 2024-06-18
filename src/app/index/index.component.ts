@@ -57,10 +57,10 @@ export class IndexComponent implements OnInit{
 
   /**
   * shows overlay with Book details
-  * @param {Book} Book Book Data from the backend for this specific Book
+  * @param {Book} book Book Data from the backend for this specific Book
   */
-  showOverlay(Book: Book): void {
-    this.selectedBook = Book;
+  showOverlay(book: Book): void {
+    this.selectedBook = book;
   }
 
   /**
@@ -70,5 +70,7 @@ export class IndexComponent implements OnInit{
     this.selectedBook = null;
   }
 
-  editBook(book: Book): void {}
+  editBook(book: Book): void {
+    this.router.navigate(['/book-edit', book.id]);
+  }
 }

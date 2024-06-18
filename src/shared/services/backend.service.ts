@@ -66,8 +66,9 @@ export class BackendService {
   }
 
 
-  getBook(id: number): Observable<Book> {
-    return this.http.get<Book>(`${this.bookUrl}${id}/`);
+  getBookById(id: string): Observable<Book> {
+    const url = `${this.bookUrl}/${id}/`;
+    return this.http.get<Book>(url);
   }
 
   createBook(formData: FormData): Observable<any> {
@@ -81,9 +82,16 @@ export class BackendService {
     return this.http.post<any>(url, formData, { headers });
   }
 
-  updateBook(id: number, book: Book): Observable<Book> {
-    return this.http.put<Book>(`${this.bookUrl}${id}/edit/`, book);
+  updateBook(id: number, formData: FormData): Observable<any> {
+    const url = `${this.bookUrl}/edit/${id}/`;
+    const accessToken = localStorage.getItem('accessToken');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${accessToken}`
+    });
+
+    return this.http.put<any>(url, formData, { headers });
   }
+
 
   deleteBook(id: number): Observable<void> {
     return this.http.delete<void>(`${this.bookUrl}${id}/delete/`);

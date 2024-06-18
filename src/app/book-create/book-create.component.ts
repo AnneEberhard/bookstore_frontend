@@ -85,7 +85,7 @@ export class BookCreateComponent {
     }
   }
 
-  /**
+/**
 * shows overlay
 */
   showOverlay(): void {

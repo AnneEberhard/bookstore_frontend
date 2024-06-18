@@ -20,7 +20,7 @@ export interface Book {
   title: string;
   url_title?: string;
   description: string;
-  cover_image?: File;
+  cover_image: File;
   genre: BookGenre;
   is_published: boolean;
   author: CustomUser

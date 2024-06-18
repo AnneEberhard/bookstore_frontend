@@ -65,28 +65,10 @@ a {
   height: 100%;
 }
 
-header {
-  display: flex;
-  padding: 16px 32px 8px 32px;
-  height: 70px;
-  justify-content: space-between;
-  align-items: center;
-
-  a:hover {
-    text-decoration: none !important;
-    text-shadow: 2px 2px 3px rgb(81, 196, 205);
-  }
-
-  button {
-    margin-top: 0 !important;
-    background-color: rgb(14, 16, 19);
-
-    &:hover {
-      background-color: rgba(14, 16, 19, 0.5);
-  }
-}
 
 button {
+  margin-top: 16px;;
+  background-color: #056585;
   color: white;
   border-radius: 0.25rem;
   cursor: pointer;
@@ -98,7 +80,9 @@ button {
   line-height: 1.5;
   font-size: 1rem;
   border: none;
-  color: inherit;
+
+  &:hover {
+      background-color: #04496c;
   }
 }
 
@@ -207,24 +191,7 @@ form {
       color: white;
     }
   
-    button {
-      background-color: #056585;
-      color: white;
-      border-radius: 0.25rem;
-      cursor: pointer;
-      line-height: 1.5;
-      padding: 1rem;
-      min-height: 16px;
-      min-width: 16px;
-      font-size: 1rem;
-      line-height: 1.5;
-      font-size: 1rem;
-      border: none;
-  
-      &:hover {
-          background-color: #04496c;
-      }
-    }
+
 }
 
 .border-red {
@@ -259,6 +226,25 @@ p {
   justify-content: center;
   color: white;
   z-index: 100;
+}
+
+.overlayBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  gap: 16px;
+}
+
+#overlayCloseButton {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+}
+
+.overlayRight {
+    display: flex;
+    flex-direction: column;
 }
 
 @media (max-width: 400px) {

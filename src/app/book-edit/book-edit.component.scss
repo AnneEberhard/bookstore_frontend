@@ -1,0 +1,14 @@
+form input[type="checkbox"]:checked::after {
+    content: '✔'; /* Checkmark character */
+    color: white; /* Color of the checkmark */
+  }
+
+  /* Styling for select element when an option is selected */
+form select option {
+    color: #04496c; /* Color for options in select */
+  }
+  
+  /* Additional specific styling for the selected option */
+  form select:focus option {
+    background-color: #e0f7fa; /* Background color for focused option */
+  }
