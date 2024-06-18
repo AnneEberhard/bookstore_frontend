@@ -16,6 +16,15 @@ export class BackendService {
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
 
+  refreshToken(): Observable<any> {
+    const url = environment.baseUrl +'/token/refresh/';
+    const refreshToken = localStorage.getItem('refreshToken');
+  
+    return this.http.post<any>(url, { refresh: refreshToken });
+  }
+  
+
+
 /**
  * Logic around getting content info from the backend
  * using getBooks for request
@@ -56,10 +65,6 @@ export class BackendService {
     return filteredBooks;
   }
 
-
-  etBooks(): Observable<Book[]> {
-    return this.http.get<Book[]>(this.bookUrl);
-  }
 
   getBook(id: number): Observable<Book> {
     return this.http.get<Book>(`${this.bookUrl}${id}/`);

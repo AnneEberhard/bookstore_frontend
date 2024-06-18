@@ -15,14 +15,6 @@ export class BookCreateComponent {
   success: boolean = false;
   genres: BookGenre[] = ['Dystopia', 'Fantasy', 'Historical', 'Spy', 'Contemporary'];
   coverImageFile: File | null = null;
-//  formData: Book = {
-//    title: '',
-//    description: '',
-//    genre: 'Unclassified',
-//    is_published: true,
-//    author: { username: '', first_name: '', last_name: '', email: '', password: '' }
-//  };
-
   formData: FormData = new FormData();
 
   constructor(private backendService: BackendService, private authService: AuthService) { }
@@ -38,19 +30,53 @@ export class BookCreateComponent {
         this.formData.set('cover_image', this.coverImageFile, this.coverImageFile.name);
       }
 
-      this.formData.forEach((value, key) => {
-        console.log(`${key}: ${value}`);
-      });
-
       this.backendService.createBook(this.formData).subscribe({
         next: (response) => {
+          this.messageHeader = 'Success';
+          this.messageText = 'Book created successfully!';
+          this.success = true;
           console.log('Book created successfully:', response);
         },
         error: (err) => {
-          console.error('Book creation failed:', err);
+          if (err.status === 401) {
+            // Token abgelaufen oder ungültig, versuchen Sie den Token zu aktualisieren
+            this.backendService.refreshToken().subscribe({
+              next: (res) => {
+                localStorage.setItem('accessToken', res.access);
+                // Versuchen Sie erneut, das Buch zu erstellen
+                this.backendService.createBook(this.formData).subscribe({
+                  next: (response) => {
+                    this.messageHeader = 'Success';
+                    this.messageText = 'Book created successfully!';
+                    this.success = true;
+                    console.log('Book created successfully:', response);
+                  },
+                  error: (err) => {
+                    this.messageHeader = 'Error';
+                    this.messageText = 'Failed to create book. Please try again.';
+                    this.success = false;
+                    console.error('Book creation failed:', err);
+                  }
+                });
+              },
+              error: (refreshErr) => {
+                this.messageHeader = 'Error';
+                this.messageText = 'Failed to refresh token. Please log in again.';
+                this.success = false;
+                console.error('Token refresh failed:', refreshErr);
+                // Optionally, redirect to the login page
+              }
+            });
+          } else {
+            this.messageHeader = 'Error';
+            this.messageText = 'Failed to create book. Please try again.';
+            this.success = false;
+            console.error('Book creation failed:', err);
+          }
         }
       });
     }
+    this.showOverlay();
   }
 
   onCoverImageSelected(event: any) {

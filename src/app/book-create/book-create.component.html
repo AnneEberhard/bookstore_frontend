@@ -20,7 +20,7 @@
         <input type="file" id="cover_image" name="cover_image" class="form-control-file" (change)="onCoverImageSelected($event)" accept="image/*">
       </div>
       <div class="InputBox leftAlign">
-        <input type="checkbox" id="is_published" name="is_published" class="form-control" ngModel>
+        <input type="checkbox" id="is_published" name="is_published" class="form-control" ngModel [checked]="true">
         <label>
           Published
         </label>
@@ -34,7 +34,7 @@
       <p>{{ messageText }}</p>
     </div>
     <div class="overlayBottom">
-      <a *ngIf="success" routerLink="/login">Go To Login</a>
+      <a *ngIf="success" routerLink="/">Go To Index</a>
       <button *ngIf="!success" (click)="closeOverlay()">Try Again</button>
     </div>
   </div>
