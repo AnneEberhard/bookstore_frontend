@@ -29,7 +29,7 @@ export class IndexComponent implements OnInit{
   ngOnInit() {
     this.backend.fetchBookData().subscribe(
       (data: Book[]) => {
-        this.books = data;
+        this.books = data.filter(book => book.is_published);
       }
     );
 

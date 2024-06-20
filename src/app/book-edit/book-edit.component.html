@@ -15,14 +15,15 @@
             <option *ngFor="let genre of genres" [value]="genre">{{ genre }}</option>
           </select>
         </div>
-        <div class="form-group">
+        <div class="form-group InputBox">
           <label for="cover_image">Change Cover:</label>
           <input type="file" id="cover_image" name="cover_image" class="form-control-file" (change)="onCoverImageSelected($event)" accept="image/*">
         </div>
         <div class="InputBox leftAlign">
           <input type="checkbox" id="is_published" name="is_published" class="form-control" [(ngModel)]="book!.is_published">
-          <label for="is_published">
-            Published
+          <label class="checkBoxInfo" for="is_published">
+            Published <I>(Beware that if you unpublish your book, you will need to contact the staff at Wookie Books to have it republished. It will not be deleted from the database.)
+            </I>
           </label>
         </div>
         <button type="submit" [disabled]="!bookForm.valid">Update Book</button>
