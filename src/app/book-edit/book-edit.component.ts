@@ -4,13 +4,14 @@ import { AuthService } from 'src/shared/services/auth.service';
 import { BackendService } from 'src/shared/services/backend.service';
 import { Book, BookGenre } from 'src/shared/services/models.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { GeneralService } from 'src/shared/services/general.service';
 
 @Component({
   selector: 'app-book-edit',
   templateUrl: './book-edit.component.html',
   styleUrls: ['./book-edit.component.scss']
 })
-export class BookEditComponent implements OnInit{
+export class BookEditComponent implements OnInit {
   messageHeader: string = '';
   messageText: string = '';
   success: boolean = false;
@@ -21,7 +22,11 @@ export class BookEditComponent implements OnInit{
   coverImageFileName: string | null = null;
 
 
-  constructor(private backendService: BackendService, private authService: AuthService, private route: ActivatedRoute,) { }
+  constructor(
+    private backendService: BackendService,
+    private authService: AuthService,
+    private route: ActivatedRoute,
+    public general: GeneralService) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -34,21 +39,10 @@ export class BookEditComponent implements OnInit{
 
   onSubmit(form: NgForm) {
     if (form.valid) {
-      this.formData.set('title', form.value.title);
-      this.formData.set('description', form.value.description);
-      this.formData.set('genre', form.value.genre);
-      this.formData.set('is_published', String(form.value.is_published));
-
-      if (this.coverImageFile) {
-        this.formData.set('cover_image', this.coverImageFile, this.coverImageFile.name);
-      }
-      
+      this.assembleData(form);
       this.backendService.updateBook(this.book!.id!, this.formData).subscribe({
         next: (response) => {
-          this.messageHeader = 'Success';
-          this.messageText = 'Book created successfully!';
-          this.success = true;
-          console.log('Book created successfully:', response);
+          this.handleSuccess(response);
         },
         error: (err) => {
           if (err.status === 401) {
@@ -57,37 +51,60 @@ export class BookEditComponent implements OnInit{
                 localStorage.setItem('accessToken', res.access);
                 this.backendService.updateBook(this.book!.id!, this.formData).subscribe({
                   next: (response) => {
-                    this.messageHeader = 'Success';
-                    this.messageText = 'Book created successfully!';
-                    this.success = true;
-                    console.log('Book created successfully:', response);
+                    this.handleSuccess(response)
                   },
                   error: (err) => {
-                    this.messageHeader = 'Error';
-                    this.messageText = 'Failed to create book. Please try again.';
-                    this.success = false;
-                    console.error('Book creation failed:', err);
+                    this.handleError(err);
                   }
                 });
               },
               error: (refreshErr) => {
-                this.messageHeader = 'Error';
-                this.messageText = 'Failed to refresh token. Please log in again.';
-                this.success = false;
-                console.error('Token refresh failed:', refreshErr);
-                // Optionally, redirect to the login page
+                this.handleRefreshError(refreshErr);
               }
             });
           } else {
-            this.messageHeader = 'Error';
-            this.messageText = 'Failed to create book. Please try again.';
-            this.success = false;
-            console.error('Book creation failed:', err);
+            this.handleError(err);
           }
         }
       });
     }
-    this.showOverlay();
+    this.general.showOverlay();
+  }
+
+assembleData(form: NgForm) {
+  this.formData.set('title', form.value.title);
+  this.formData.set('description', form.value.description);
+  this.formData.set('genre', form.value.genre);
+  this.formData.set('is_published', String(form.value.is_published));
+
+  if (this.coverImageFile) {
+    this.formData.set('cover_image', this.coverImageFile, this.coverImageFile.name);
+  }
+}
+
+  handleSuccess(response: any) {
+    this.messageHeader = 'Success';
+    this.messageText = 'Book updated successfully!';
+    this.success = true;
+    console.log('Book updated successfully:', response);
+  }
+
+
+  handleError(err: { error: { detail: string; }; }) {
+    this.messageHeader = 'Error';
+    this.messageText = err.error.detail;
+    this.success = false;
+    console.error('Book update failed:', err);
+    console.log(err.error.detail);
+  }
+
+
+  handleRefreshError(refreshErr: any) {
+    this.messageHeader = 'Error';
+    this.messageText = 'Failed to refresh token. Please log in again.';
+    this.success = false;
+    console.error('Token refresh failed:', refreshErr);
+    // Optionally, redirect to the login page
   }
 
   onCoverImageSelected(event: any) {
@@ -102,9 +119,9 @@ export class BookEditComponent implements OnInit{
     }
   }
 
-/**
-* shows overlay
-*/
+  /**
+  * shows overlay
+  */
   showOverlay(): void {
     let div = document.getElementById('overlay')
     if (div) {
@@ -121,4 +138,5 @@ export class BookEditComponent implements OnInit{
       div.classList.add('dNone')
     }
   }
+
 }

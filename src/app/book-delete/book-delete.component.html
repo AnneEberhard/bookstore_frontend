@@ -1,0 +1,22 @@
+<section>
+    <div id="Box">
+      <form #bookForm="ngForm" (ngSubmit)="delete()">
+        <h2>Delete {{ this.book?.title }}</h2>
+        <h3>Do you truly want to delete this book from the database?</h3>
+        <p>If you only want to unpublish it, go to the edit page and uncheck the published box.</p>
+        
+        <button type="submit" [disabled]="!bookForm.valid">Delete Book</button>
+      </form>
+    </div>
+    <div id="overlay" class="overlay dNone">
+      <div class="overlayBox">
+        <h3>{{ messageHeader }}</h3>
+        <p>{{ messageText }}</p>
+      </div>
+      <div class="overlayBottom">
+        <a *ngIf="success" routerLink="/">Go To Index</a>
+        <button *ngIf="!success" (click)="general.closeOverlay()">Try Again</button>
+      </div>
+    </div>
+  </section>
+  

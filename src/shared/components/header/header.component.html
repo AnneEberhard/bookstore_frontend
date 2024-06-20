@@ -1,13 +1,21 @@
 <header>
-    <a routerLink="/" >
-        <h1>Wookie Books</h1>
-    </a>
-    <button (click)="showMenu()" type="button">Menu</button>
+  <a routerLink="/">
+    <h1>Wookie Books</h1>
+  </a>
+  <button (click)="showMenu()" type="button">Menu</button>
+  <div id="navContainer" class="overlay dNone" (click)="hideMenu()">
     <nav id="nav">
-        <div class="close" (click)="hideMenu()">X</div>
-        <div *ngIf="login">Hello {{ this.username }}</div>
-        <button *ngIf="login" (click)="clickAddBook()" type="button">Add Book</button>
-        <button *ngIf="login" (click)="clicklogout()" type="button">Log Out</button>
-        <button *ngIf="!login" (click)="clickLogin()" type="button">Log In</button>
-    </nav>    
+      <div class="close" (click)="hideMenu()">X</div>
+      <div *ngIf="login">Hello {{ this.username }}</div>
+      <button *ngIf="login" (click)="clickAddBook()" type="button">
+        Add Book
+      </button>
+      <button *ngIf="login" (click)="clicklogout()" type="button">
+        Log Out
+      </button>
+      <button *ngIf="!login" (click)="clickLogin()" type="button">
+        Log In
+      </button>
+    </nav>
+  </div>
 </header>

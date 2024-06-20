@@ -94,7 +94,12 @@ export class BackendService {
 
 
   deleteBook(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.bookUrl}${id}/delete/`);
+    const url = `${this.bookUrl}/delete/${id}/`;
+    const accessToken = localStorage.getItem('accessToken');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${accessToken}`
+    });
+    return this.http.delete<void>(url, { headers });
   }
 
 }

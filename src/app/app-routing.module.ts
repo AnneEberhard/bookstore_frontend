@@ -7,6 +7,7 @@ import { RegisterComponent } from './register/register.component';
 import { AuthGuard } from 'src/shared/services/auth.guard';
 import { BookCreateComponent } from './book-create/book-create.component';
 import { BookEditComponent } from './book-edit/book-edit.component';
+import { BookDeleteComponent } from './book-delete/book-delete.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'book-add', component: BookCreateComponent, canActivate: [AuthGuard]},
   { path: 'book-edit/:id', component: BookEditComponent, canActivate: [AuthGuard] },
+  { path: 'book-delete/:id', component: BookDeleteComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

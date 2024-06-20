@@ -44,6 +44,8 @@
       </div>
     </div>
     <div class="overlayBottom">
-      <button (click)="editBook(selectedBook)">Edit Book</button>
+      <button *ngIf="login" (click)="deleteBook(selectedBook)">Delete Book</button>
+      <button *ngIf="login" (click)="editBook(selectedBook)">Edit Book</button>
+      <button (click)="buyBook(selectedBook)">Buy Book</button>
     </div>
   </div>

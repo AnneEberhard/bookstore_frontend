@@ -15,6 +15,7 @@ import { FooterComponent } from '../shared/components/footer/footer.component';
 import { FilterByTitlePipe } from './index/filter-by-title.pipe';
 import { BookCreateComponent } from './book-create/book-create.component';
 import { BookEditComponent } from './book-edit/book-edit.component';
+import { BookDeleteComponent } from './book-delete/book-delete.component';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { BookEditComponent } from './book-edit/book-edit.component';
     FilterByTitlePipe,
     BookCreateComponent,
     BookEditComponent,
+    BookDeleteComponent,
   ],
   imports: [
     BrowserModule,

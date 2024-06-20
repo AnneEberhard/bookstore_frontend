@@ -41,16 +41,16 @@ export class HeaderComponent {
 
   async showMenu() {
     await this.checkLogStatus();
-    let nav = document.getElementById('nav')
+    let nav = document.getElementById('navContainer')
     if (nav) {
-      nav.classList.add('showNav')
+      nav.classList.remove('dNone')
     }
   }
 
   hideMenu() {
-    let nav = document.getElementById('nav')
+    let nav = document.getElementById('navContainer')
     if (nav) {
-      nav.classList.remove('showNav')
+      nav.classList.add('dNone')
     }
   }
 

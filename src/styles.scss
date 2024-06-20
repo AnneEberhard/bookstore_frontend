@@ -22,7 +22,7 @@ h2 {
 }
 
 h3 {
-  font-size: 1.5em;
+  font-size: 1.2em;
   margin-block-end: 0.5em;
 }
 
@@ -245,6 +245,13 @@ p {
 .overlayRight {
     display: flex;
     flex-direction: column;
+}
+
+.overlayBottom {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  flex-direction: row;
 }
 
 @media (max-width: 400px) {

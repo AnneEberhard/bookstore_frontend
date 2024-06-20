@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
 import { AuthService } from 'src/shared/services/auth.service';
 import { BackendService } from 'src/shared/services/backend.service';
 import { Book, BookGenre } from 'src/shared/services/models.service';
@@ -17,6 +16,7 @@ export class IndexComponent implements OnInit{
   selectedGenre: BookGenre | null = null;
   searchQuery: string = '';
   selectedBook: Book | null = null;
+  login: boolean = false;
 
   constructor(public authService: AuthService, private router: Router, public backend: BackendService) {
   }
@@ -60,6 +60,7 @@ export class IndexComponent implements OnInit{
   * @param {Book} book Book Data from the backend for this specific Book
   */
   showOverlay(book: Book): void {
+    this.checkLogStatus();
     this.selectedBook = book;
   }
 
@@ -72,5 +73,18 @@ export class IndexComponent implements OnInit{
 
   editBook(book: Book): void {
     this.router.navigate(['/book-edit', book.id]);
+  }
+
+  buyBook(book: Book): void {
+
+  }
+
+  deleteBook(book: Book): void {
+    this.router.navigate(['/book-delete', book.id]);
+  }
+
+  async checkLogStatus() {
+    let status = await this.authService.getWookielogin();
+    this.login = (status === 'True');
   }
 }
