@@ -119,15 +119,6 @@ assembleData(form: NgForm) {
     }
   }
 
-  /**
-  * shows overlay
-  */
-  showOverlay(): void {
-    let div = document.getElementById('overlay')
-    if (div) {
-      div.classList.remove('dNone')
-    }
-  }
 
   /**
   * closes overlay
