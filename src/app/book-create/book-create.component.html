@@ -19,11 +19,9 @@
         <label for="cover_image">Cover Image:</label>
         <input type="file" id="cover_image" name="cover_image" class="form-control-file" (change)="onCoverImageSelected($event)" accept="image/*">
       </div>
-      <div class="InputBox leftAlign">
-        <input type="checkbox" id="is_published" name="is_published" class="form-control" ngModel [checked]="true">
-        <label>
-          Published
-        </label>
+      <div class="InputBox">
+        <label for="price">Price:</label>
+        <input type="text" id="price" name="price" class="form-control" ngModel required>
       </div>
       <button type="submit" [disabled]="!bookForm.valid">Create Book</button>
     </form>

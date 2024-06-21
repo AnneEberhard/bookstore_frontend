@@ -23,7 +23,8 @@ export interface Book {
   cover_image: File;
   genre: BookGenre;
   is_published: boolean;
-  author: CustomUser
+  author: CustomUser;
+  price: number;
 }
 
 

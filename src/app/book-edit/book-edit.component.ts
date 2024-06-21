@@ -75,6 +75,7 @@ assembleData(form: NgForm) {
   this.formData.set('title', form.value.title);
   this.formData.set('description', form.value.description);
   this.formData.set('genre', form.value.genre);
+  this.formData.set('price', form.value.price);
   this.formData.set('is_published', String(form.value.is_published));
 
   if (this.coverImageFile) {

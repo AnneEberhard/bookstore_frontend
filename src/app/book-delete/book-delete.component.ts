@@ -65,9 +65,8 @@ export class BookDeleteComponent implements OnInit{
  
     handleSuccess(response: any) {
       this.messageHeader = 'Success';
-      this.messageText = 'Book updated successfully!';
+      this.messageText = 'Book successfully deleted!';
       this.success = true;
-      console.log('Book updated successfully:', response);
     }
   
   
@@ -85,7 +84,6 @@ export class BookDeleteComponent implements OnInit{
       this.messageText = 'Failed to refresh token. Please log in again.';
       this.success = false;
       console.error('Token refresh failed:', refreshErr);
-      // Optionally, redirect to the login page
     }
 
 }
