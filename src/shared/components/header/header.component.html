@@ -6,14 +6,20 @@
   <div id="navContainer" class="overlay dNone" (click)="hideMenu()">
     <nav id="nav">
       <div class="close" (click)="hideMenu()">X</div>
-      <div *ngIf="login">Hello {{ this.username }}</div>
-      <button *ngIf="login" (click)="clickAddBook()" type="button">
+      <div *ngIf="general.login">Hello {{ this.username }}</div>
+      <button (click)="clickMainPage()" type="button">
+        Main Page
+      </button>
+      <button (click)="clickSeeBasket()" type="button">
+        See Basket
+      </button>
+      <button *ngIf="general.login" (click)="clickAddBook()" type="button">
         Add Book
       </button>
-      <button *ngIf="login" (click)="clicklogout()" type="button">
+      <button *ngIf="general.login" (click)="clicklogout()" type="button">
         Log Out
       </button>
-      <button *ngIf="!login" (click)="clickLogin()" type="button">
+      <button *ngIf="!general.login" (click)="clickLogin()" type="button">
         Log In
       </button>
     </nav>

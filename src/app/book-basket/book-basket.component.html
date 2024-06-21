@@ -1,0 +1,24 @@
+<section>
+  <h2>Book Basket</h2>
+  <div *ngIf="general.selectedBooks.length == 0" id="emptyBasket">Your basket is currently empty. Please return to the <br><br><b><a routerLink="/" > main page </a> </b><br>in order to select books!</div>
+  <div class="content">
+    <div
+      class="contentTile"
+      *ngFor="let book of general.selectedBooks"
+      (click)="general.showBookOverlay(book)"
+    >
+      <div>
+        <img
+          [src]="book.cover_image"
+          alt="{{ book.title }} Cover"
+          (contextmenu)="general.preventRightClick($event)"
+        />
+      </div>
+      <div>
+        <h3>{{ book.title }}</h3>
+        <h3>{{ book.price }}</h3>
+      </div>
+    </div>
+  </div>
+  <button (click)="checkOut()">Checkout</button>
+</section>

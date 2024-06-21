@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/shared/services/auth.service';
+import { GeneralService } from 'src/shared/services/general.service';
 
 @Component({
   selector: 'app-header',
@@ -9,19 +10,13 @@ import { AuthService } from 'src/shared/services/auth.service';
 })
 export class HeaderComponent {
 
-  login: boolean = false;
   username: string | null = '';
 
-  constructor(public authService: AuthService, private router: Router) {
+  constructor(public authService: AuthService, private router: Router, public general: GeneralService) {
   }
 
-  /**
-  * handles logout in the frontend
-  * token is removed 
-  * dealing with backend via auth.service
-  * refers to login page
-  * @remarks
-  * sessionStorage used instead of localStorage to avoid blocking
+/**
+* handles logout in the frontend
 */
   clicklogout() {
     this.hideMenu();
@@ -40,7 +35,7 @@ export class HeaderComponent {
   }
 
   async showMenu() {
-    await this.checkLogStatus();
+    await this.checkMenu();
     let nav = document.getElementById('navContainer')
     if (nav) {
       nav.classList.remove('dNone')
@@ -54,9 +49,18 @@ export class HeaderComponent {
     }
   }
 
-  async checkLogStatus() {
-    let status = await this.authService.getWookielogin();
+  async checkMenu() {
     this.username = localStorage.getItem('user');
-    this.login = (status === 'True');
+    this.general.checkLogStatus();
+  }
+
+  clickSeeBasket() {
+    this.hideMenu();
+    this.router.navigate(['/book-basket']);
+  }
+
+  clickMainPage() {
+    this.hideMenu();
+    this.router.navigate(['/']);
   }
 }

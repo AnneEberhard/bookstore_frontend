@@ -1,11 +1,17 @@
 import { Injectable } from '@angular/core';
+import { Book } from './models.service';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GeneralService {
 
-  constructor() { }
+  selectedBook: Book | null = null;
+  selectedBooks: Book[] = [];
+  login: boolean = false;
+
+  constructor(public authService: AuthService) { }
 
 
   /**
@@ -28,5 +34,35 @@ closeOverlay(): void {
   }
 }
 
+  /**
+  * prevents right click on element to disable download
+  * @param {MouseEvent} event rightclick
+  */
+  preventRightClick(event: MouseEvent) {
+    event.preventDefault();
+  }
 
+  /**
+  * shows overlay with Book details
+  * @param {Book} book Book Data from the backend for this specific Book
+  */
+  showBookOverlay(book: Book): void {
+    this.checkLogStatus();
+    this.selectedBook = book;
+  }
+
+  /**
+  * closes overlay
+  */
+  closeBookOverlay(): void {
+    this.selectedBook = null;
+  }
+
+  /**
+  * checks if user is logged in for display of buttons
+  */
+  async checkLogStatus() {
+    let status = await this.authService.getWookielogin();
+    this.login = (status === 'True');
+  }
 }

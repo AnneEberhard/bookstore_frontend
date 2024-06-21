@@ -1,0 +1,38 @@
+#emptyBasket {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+img {
+    height: 200px;
+    cursor: pointer;
+  
+    &:hover {
+      height: 250px;
+    }
+  }
+  
+  .content {
+    flex-direction: column;
+    display: flex;
+    gap: 16px;
+    width: 90%;
+    margin: 32px;
+    flex: 1;
+    box-sizing: border-box;
+  }
+
+  .contentTile {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    text-align: start;
+    max-width: 150px;
+
+    h3 {
+        min-width: max-content;
+    }
+  }

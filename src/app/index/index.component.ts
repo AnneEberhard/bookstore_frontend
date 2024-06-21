@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/shared/services/auth.service';
 import { BackendService } from 'src/shared/services/backend.service';
+import { GeneralService } from 'src/shared/services/general.service';
 import { Book, BookGenre } from 'src/shared/services/models.service';
 
 @Component({
@@ -15,10 +16,12 @@ export class IndexComponent implements OnInit{
   genres: BookGenre[] =  ['Dystopia', 'Fantasy', 'Historical', 'Spy', 'Contemporary'];
   selectedGenre: BookGenre | null = null;
   searchQuery: string = '';
-  selectedBook: Book | null = null;
-  login: boolean = false;
 
-  constructor(public authService: AuthService, private router: Router, public backend: BackendService) {
+  constructor(
+    public authService: AuthService, 
+    private router: Router, 
+    public backend: BackendService,
+    public general: GeneralService) {
   }
 
 
@@ -55,36 +58,19 @@ export class IndexComponent implements OnInit{
     event.preventDefault();
   }
 
-  /**
-  * shows overlay with Book details
-  * @param {Book} book Book Data from the backend for this specific Book
-  */
-  showOverlay(book: Book): void {
-    this.checkLogStatus();
-    this.selectedBook = book;
-  }
-
-  /**
-  * closes overlay
-  */
-  closeOverlay(): void {
-    this.selectedBook = null;
-  }
 
   editBook(book: Book): void {
     this.router.navigate(['/book-edit', book.id]);
   }
 
   buyBook(book: Book): void {
-
+    this.general.selectedBooks.push(book);
+    this.general.closeBookOverlay()
+    this.router.navigate(['/book-basket']);
   }
 
   deleteBook(book: Book): void {
     this.router.navigate(['/book-delete', book.id]);
   }
 
-  async checkLogStatus() {
-    let status = await this.authService.getWookielogin();
-    this.login = (status === 'True');
-  }
 }

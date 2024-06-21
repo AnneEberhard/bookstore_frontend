@@ -16,13 +16,13 @@
               let book of filterBooksByGenre(genre)
                 | filterByTitle : searchQuery
             "
-            (click)="showOverlay(book)"
+            (click)="general.showBookOverlay(book)"
           >
             <div>
               <img
                 [src]="book.cover_image"
                 alt="{{ book.title }} Cover"
-                (contextmenu)="preventRightClick($event)"
+                (contextmenu)="general.preventRightClick($event)"
               />
             </div>
             <div>
@@ -33,20 +33,20 @@
       </div>
     </div>
   </section>
-  <div *ngIf="selectedBook" class="overlay">
-    <button id="overlayCloseButton" (click)="closeOverlay()">Close</button>
+  <div *ngIf="general.selectedBook" class="overlay">
+    <button id="overlayCloseButton" (click)="general.closeBookOverlay()">Close</button>
     <div class="overlayBox">
-      <img [src]="selectedBook.cover_image" alt="Cover" />
+      <img [src]="general.selectedBook.cover_image" alt="Cover" />
       <div class="overlayRight">
-        <h3>{{ selectedBook.title }}</h3>
-        <h4>{{ selectedBook.author.author_pseudonym }}</h4>
-        <p>{{ selectedBook.price }} WookieTokens</p>
-        <p>{{ selectedBook.description }}</p>
+        <h3>{{ general.selectedBook.title }}</h3>
+        <h4>{{ general.selectedBook.author.author_pseudonym }}</h4>
+        <p>{{ general.selectedBook.price }} WookieTokens</p>
+        <p>{{ general.selectedBook.description }}</p>
       </div>
     </div>
     <div class="overlayBottom">
-      <button *ngIf="login" (click)="deleteBook(selectedBook)">Delete Book</button>
-      <button *ngIf="login" (click)="editBook(selectedBook)">Edit Book</button>
-      <button (click)="buyBook(selectedBook)">Buy Book</button>
+      <button *ngIf="general.login" (click)="deleteBook(general.selectedBook)">Delete Book</button>
+      <button *ngIf="general.login" (click)="editBook(general.selectedBook)">Edit Book</button>
+      <button (click)="buyBook(general.selectedBook)">Buy Book</button>
     </div>
   </div>
