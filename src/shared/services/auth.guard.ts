@@ -9,6 +9,11 @@ export class AuthGuard implements CanActivate {
 
   constructor(private authService: AuthService, private router: Router) { }
 
+  /**
+ * Determines if a route can be activated based on the presence of an access token.
+ * Redirects to the login page if no access token is found.
+ * @returns {boolean} True if the route can be activated (access token is present), false otherwise.
+ */
   canActivate(): boolean {
     const token = this.authService.getAccessToken();
     if (token) {

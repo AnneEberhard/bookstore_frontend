@@ -14,6 +14,10 @@ export class BookBasketComponent {
   constructor(public authService: AuthService, private router: Router, public general: GeneralService) {
   }
 
+  /**
+   * Displays an alert window notifying the user that the checkout process
+   * is currently interrupted due to external circumstances (e.g., business interruption).
+   */
   checkOut() {
     window.alert('The Empire has currently interrupted all business. Ha Ha Ha.');
   }

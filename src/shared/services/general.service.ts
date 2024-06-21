@@ -14,8 +14,8 @@ export class GeneralService {
   constructor(public authService: AuthService) { }
 
 
-  /**
-* shows overlay
+/**
+* shows general overlay
 */
 showOverlay(): void {
   let div = document.getElementById('overlay')
@@ -25,7 +25,7 @@ showOverlay(): void {
 }
 
 /**
-* closes overlay
+* closes general overlay
 */
 closeOverlay(): void {
   let div = document.getElementById('overlay')
@@ -43,7 +43,7 @@ closeOverlay(): void {
   }
 
   /**
-  * shows overlay with Book details
+  * shows overlay with book details
   * @param {Book} book Book Data from the backend for this specific Book
   */
   showBookOverlay(book: Book): void {
@@ -52,7 +52,7 @@ closeOverlay(): void {
   }
 
   /**
-  * closes overlay
+  * closes book overlay
   */
   closeBookOverlay(): void {
     this.selectedBook = null;

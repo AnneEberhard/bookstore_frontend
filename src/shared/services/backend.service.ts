@@ -17,19 +17,17 @@ export class BackendService {
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
 
   refreshToken(): Observable<any> {
-    const url = environment.baseUrl +'/token/refresh/';
+    const url = environment.baseUrl + '/token/refresh/';
     const refreshToken = localStorage.getItem('refreshToken');
-  
+
     return this.http.post<any>(url, { refresh: refreshToken });
   }
-  
 
-
-/**
- * Logic around getting content info from the backend
- * using getBooks for request
- * returns either arry of Book data (in JSON) or empty array if error occurs
- */
+  /**
+   * Logic around getting content info from the backend
+   * using getBooks for request
+   * returns either arry of Book data (in JSON) or empty array if error occurs
+   */
   fetchBookData(): Observable<Book[]> {
     return this.getBooks().pipe(
       tap((data: Book[]) => {
@@ -41,15 +39,14 @@ export class BackendService {
       })
     );
   }
-    
-/**
- * handles getting Books from the backend
- */
+
+  /**
+   * handles getting Books from the backend
+   */
   getBooks(): Observable<Book[]> {
     const url = this.bookUrl;
     return this.http.get<Book[]>(url);
   }
-
 
   /**
  * filters Books according to genre
@@ -65,12 +62,21 @@ export class BackendService {
     return filteredBooks;
   }
 
-
+  /**
+   * Retrieves a book by its ID from the server.
+   * @param {string} id - The ID of the book to retrieve.
+   * @returns {Observable<Book>} An Observable that emits the retrieved Book object.
+   */
   getBookById(id: string): Observable<Book> {
     const url = `${this.bookUrl}/${id}/`;
     return this.http.get<Book>(url);
   }
 
+  /**
+ * Creates a new book on the server using the provided form data.
+ * @param {FormData} formData - The form data containing book information.
+ * @returns {Observable<any>} An Observable that emits the response data from the server.
+ */
   createBook(formData: FormData): Observable<any> {
     const url = `${this.bookUrl}/create/`;
     const accessToken = localStorage.getItem('accessToken');
@@ -82,6 +88,13 @@ export class BackendService {
     return this.http.post<any>(url, formData, { headers });
   }
 
+
+  /**
+   * Updates an existing book on the server using the provided form data.
+   * @param {number} id - The ID of the book to update.
+   * @param {FormData} formData - The form data containing updated book information.
+   * @returns {Observable<any>} An Observable that emits the response data from the server.
+   */
   updateBook(id: number, formData: FormData): Observable<any> {
     const url = `${this.bookUrl}/edit/${id}/`;
     const accessToken = localStorage.getItem('accessToken');
@@ -93,6 +106,11 @@ export class BackendService {
   }
 
 
+  /**
+   * Deletes a book from the server by its ID.
+   * @param {number} id - The ID of the book to delete.
+   * @returns {Observable<void>} An Observable that completes when the book is successfully deleted.
+   */
   deleteBook(id: number): Observable<void> {
     const url = `${this.bookUrl}/delete/${id}/`;
     const accessToken = localStorage.getItem('accessToken');
@@ -101,5 +119,4 @@ export class BackendService {
     });
     return this.http.delete<void>(url, { headers });
   }
-
 }

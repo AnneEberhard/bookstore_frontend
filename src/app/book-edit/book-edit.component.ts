@@ -24,10 +24,16 @@ export class BookEditComponent implements OnInit {
 
   constructor(
     private backendService: BackendService,
-    private authService: AuthService,
     private route: ActivatedRoute,
     public general: GeneralService) { }
 
+/**
+ * Lifecycle hook that is called after Angular has initialized all data-bound properties
+ * of a directive. Retrieves the book details by ID from the backend service based on the
+ * route parameter 'id' and assigns it to the component's 'book' property.
+ * If 'id' is present in the route parameters, makes a backend call to fetch the book details.
+ * Assumes 'backendService' provides a method 'getBookById(id)' returning an Observable<Book>.
+ */
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
@@ -37,6 +43,13 @@ export class BookEditComponent implements OnInit {
     }
   }
 
+  /**
+ * Handles form submission for updating a new book.
+ * If form is valid, assembles form data and submits it to update a new book.
+ * Handles authentication errors (401) by attempting to refresh the access token.
+ * Shows an overlay during submission.
+ * @param {NgForm} form - The form object containing book details.
+ */
   onSubmit(form: NgForm) {
     if (form.valid) {
       this.assembleData(form);
@@ -71,6 +84,12 @@ export class BookEditComponent implements OnInit {
     this.general.showOverlay();
   }
 
+ /**
+ * Assembles form data from NgForm into FormData for book update.
+ * Sets title, description, genre, price, and is_published.
+ * Optionally adds a cover image file if selected.
+ * @param {NgForm} form - The form object containing book details.
+ */ 
 assembleData(form: NgForm) {
   this.formData.set('title', form.value.title);
   this.formData.set('description', form.value.description);
@@ -83,6 +102,11 @@ assembleData(form: NgForm) {
   }
 }
 
+/**
+ * Handles successful response after updating a book.
+ * Sets success message and logs the response.
+ * @param {any} response - The response object from the backend.
+ */
   handleSuccess(response: any) {
     this.messageHeader = 'Success';
     this.messageText = 'Book updated successfully!';
@@ -90,7 +114,12 @@ assembleData(form: NgForm) {
     console.log('Book updated successfully:', response);
   }
 
-
+/**
+ * Handles errors that occur during book updating.
+ * Sets error message based on the error detail from the backend.
+ * Logs the error details.
+ * @param {{ error: { detail: string } }} err - The error object containing error details.
+ */
   handleError(err: { error: { detail: string; }; }) {
     this.messageHeader = 'Error';
     this.messageText = err.error.detail;
@@ -99,7 +128,12 @@ assembleData(form: NgForm) {
     console.log(err.error.detail);
   }
 
-
+/**
+ * Handles errors that occur while attempting to refresh the access token.
+ * Sets an error message indicating token refresh failure.
+ * Logs the refresh error details.
+ * @param {any} refreshErr - The error object from token refresh attempt.
+ */
   handleRefreshError(refreshErr: any) {
     this.messageHeader = 'Error';
     this.messageText = 'Failed to refresh token. Please log in again.';
@@ -108,6 +142,11 @@ assembleData(form: NgForm) {
     // Optionally, redirect to the login page
   }
 
+/**
+ * Handles the selection of a cover image file.
+ * Stores the selected cover image file for later use.
+ * @param {any} event - The event containing the selected file.
+ */
   onCoverImageSelected(event: any) {
     if (event.target.files.length > 0) {
       this.coverImageFile = event.target.files[0];
@@ -116,19 +155,6 @@ assembleData(form: NgForm) {
       }
     } else {
       console.error('No file selected');
-      // Optional: Feedback an den Benutzer geben
     }
   }
-
-
-  /**
-  * closes overlay
-  */
-  closeOverlay(): void {
-    let div = document.getElementById('overlay')
-    if (div) {
-      div.classList.add('dNone')
-    }
-  }
-
 }

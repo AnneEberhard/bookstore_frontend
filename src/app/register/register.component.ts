@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { take } from 'rxjs';
 import { AuthService } from 'src/shared/services/auth.service';
+import { GeneralService } from 'src/shared/services/general.service';
 import { CustomUser } from 'src/shared/services/models.service';
 
 @Component({
@@ -15,7 +16,7 @@ export class RegisterComponent {
   showErrorPasswordMatchAlert: boolean = false;
   messageHeader: string = '';
   messageText: string = '';
-  confirmPassword: string ='';
+  confirmPassword: string = '';
   success: boolean = false;
 
   formData: CustomUser = {
@@ -27,43 +28,43 @@ export class RegisterComponent {
     password: ''
   };
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, public general: GeneralService) { }
 
-/**
-* starts validation, and if true, sends registration to backend
-* @param {NgForm} form - entered data
-* @returns boolean
-*/
+  /**
+  * starts validation, and if true, sends registration to backend
+  * @param {NgForm} form - entered data
+  * @returns boolean
+  */
   onSubmit(form: NgForm) {
     if (this.checkForm(form)) {
       this.authService.register(this.formData).pipe(take(1))
-      .subscribe({
-        next: (response) => {
-          console.log('User registered successfully:', response);
-          this.messageHeader = 'Success';
-          this.messageText = 'User registered successfully';
-          this.success = true;
-      },    
-        error: (err) => {
-          console.error('Registration failed:', err);
-          this.messageHeader = 'Failure';
-          this.success = false;
-          if (err.status === 400 && err.error && err.error.username) {
-            this.messageText = err.error.username[0];
-          } else {
-            this.messageText = 'Registration failed. Please try again.';
+        .subscribe({
+          next: (response) => {
+            console.log('User registered successfully:', response);
+            this.messageHeader = 'Success';
+            this.messageText = 'User registered successfully';
+            this.success = true;
+          },
+          error: (err) => {
+            console.error('Registration failed:', err);
+            this.messageHeader = 'Failure';
+            this.success = false;
+            if (err.status === 400 && err.error && err.error.username) {
+              this.messageText = err.error.username[0];
+            } else {
+              this.messageText = 'Registration failed. Please try again.';
+            }
           }
-        }
-    });  };
-    this.showOverlay();
+        });
+    };
+    this.general.showOverlay();
   }
 
-
   /**
- * starts varies functions to validate the form
- * @param {NgForm} form - entered data
- * @returns boolean
- */
+   * starts varies functions to validate the form
+   * @param {NgForm} form - entered data
+   * @returns boolean
+   */
   checkForm(form: NgForm) {
     if (form.valid) {
       if (!this.validateEmail(this.formData.email)) {
@@ -119,10 +120,10 @@ export class RegisterComponent {
   }
 
   /**
- * renders alert
- * @param {string} alertType - identifier of alert (email, password, passwordMatch=
- * @returns boolean
- */
+   * renders alert
+   * @param {string} alertType - identifier of alert (email, password, passwordMatch=
+   * @returns boolean
+   */
   renderAlert(alertType: string) {
     if (alertType === 'email') {
       this.showErrorEmailAlert = true;
@@ -133,24 +134,4 @@ export class RegisterComponent {
       this.showErrorPasswordMatchAlert = true;
     }
   }
-
-    /**
-  * shows overlay
-  */
-    showOverlay(): void {
-      let div = document.getElementById('overlay')
-      if (div) {
-        div.classList.remove('dNone')
-      }
-    }
-  
-    /**
-    * closes overlay
-    */
-    closeOverlay(): void {
-      let div = document.getElementById('overlay')
-      if (div) {
-        div.classList.add('dNone')
-      }
-    }
 }

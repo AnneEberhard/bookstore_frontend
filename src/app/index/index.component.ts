@@ -24,7 +24,6 @@ export class IndexComponent implements OnInit{
     public general: GeneralService) {
   }
 
-
   /**
    * fetches Book Data on initialisation
    * dealing with backend via backend.service
@@ -49,7 +48,6 @@ export class IndexComponent implements OnInit{
     return this.books.filter(book => book.genre === genre);
   }
 
-
   /**
   * prevents right click on element to disable download
   * @param {MouseEvent} event rightclick
@@ -58,19 +56,32 @@ export class IndexComponent implements OnInit{
     event.preventDefault();
   }
 
-
+/**
+ * Navigates to the book edit page for the specified book.
+ * Redirects to '/book-edit/{book.id}' route using Angular Router.
+ * @param {Book} book - The book object to be edited.
+ */
   editBook(book: Book): void {
     this.router.navigate(['/book-edit', book.id]);
   }
 
+ /**
+ * Adds the specified book to the selected books array in the general service,
+ * closes any overlay related to book selection, and navigates to the book basket page.
+ * @param {Book} book - The book object to be added to the basket.
+ */
   buyBook(book: Book): void {
     this.general.selectedBooks.push(book);
     this.general.closeBookOverlay()
     this.router.navigate(['/book-basket']);
   }
 
+/**
+ * Navigates to the book delete page for the specified book.
+ * Redirects to '/book-delete/{book.id}' route using Angular Router.
+ * @param {Book} book - The book object to be deleted.
+ */
   deleteBook(book: Book): void {
     this.router.navigate(['/book-delete', book.id]);
   }
-
 }
