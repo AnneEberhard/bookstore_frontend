@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AuthService } from 'src/shared/services/auth.service';
 import { BackendService } from 'src/shared/services/backend.service';
 import { Book, BookGenre } from 'src/shared/services/models.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,9 +11,6 @@ import { GeneralService } from 'src/shared/services/general.service';
   styleUrls: ['./book-edit.component.scss']
 })
 export class BookEditComponent implements OnInit {
-  messageHeader: string = '';
-  messageText: string = '';
-  success: boolean = false;
   genres: BookGenre[] = ['Dystopia', 'Fantasy', 'Historical', 'Spy', 'Contemporary'];
   coverImageFile: File | null = null;
   formData: FormData = new FormData();
@@ -25,7 +21,7 @@ export class BookEditComponent implements OnInit {
   constructor(
     private backendService: BackendService,
     private route: ActivatedRoute,
-    public general: GeneralService) { }
+    public generalService: GeneralService) { }
 
 /**
  * Lifecycle hook that is called after Angular has initialized all data-bound properties
@@ -47,6 +43,7 @@ export class BookEditComponent implements OnInit {
  * Handles form submission for updating a new book.
  * If form is valid, assembles form data and submits it to update a new book.
  * Handles authentication errors (401) by attempting to refresh the access token.
+ * Refers to backendservice and general for additional methods.
  * Shows an overlay during submission.
  * @param {NgForm} form - The form object containing book details.
  */
@@ -55,7 +52,7 @@ export class BookEditComponent implements OnInit {
       this.assembleData(form);
       this.backendService.updateBook(this.book!.id!, this.formData).subscribe({
         next: (response) => {
-          this.handleSuccess(response);
+          this.generalService.handleSuccess(response, 'updated');
         },
         error: (err) => {
           if (err.status === 401) {
@@ -64,24 +61,24 @@ export class BookEditComponent implements OnInit {
                 localStorage.setItem('accessToken', res.access);
                 this.backendService.updateBook(this.book!.id!, this.formData).subscribe({
                   next: (response) => {
-                    this.handleSuccess(response)
+                    this.generalService.handleSuccess(response, 'updated')
                   },
                   error: (err) => {
-                    this.handleError(err);
+                    this.generalService.handleError(err);
                   }
                 });
               },
               error: (refreshErr) => {
-                this.handleRefreshError(refreshErr);
+                this.generalService.handleRefreshError(refreshErr);
               }
             });
           } else {
-            this.handleError(err);
+            this.generalService.handleError(err);
           }
         }
       });
     }
-    this.general.showOverlay();
+    this.generalService.showOverlay();
   }
 
  /**
@@ -102,45 +99,6 @@ assembleData(form: NgForm) {
   }
 }
 
-/**
- * Handles successful response after updating a book.
- * Sets success message and logs the response.
- * @param {any} response - The response object from the backend.
- */
-  handleSuccess(response: any) {
-    this.messageHeader = 'Success';
-    this.messageText = 'Book updated successfully!';
-    this.success = true;
-    console.log('Book updated successfully:', response);
-  }
-
-/**
- * Handles errors that occur during book updating.
- * Sets error message based on the error detail from the backend.
- * Logs the error details.
- * @param {{ error: { detail: string } }} err - The error object containing error details.
- */
-  handleError(err: { error: { detail: string; }; }) {
-    this.messageHeader = 'Error';
-    this.messageText = err.error.detail;
-    this.success = false;
-    console.error('Book update failed:', err);
-    console.log(err.error.detail);
-  }
-
-/**
- * Handles errors that occur while attempting to refresh the access token.
- * Sets an error message indicating token refresh failure.
- * Logs the refresh error details.
- * @param {any} refreshErr - The error object from token refresh attempt.
- */
-  handleRefreshError(refreshErr: any) {
-    this.messageHeader = 'Error';
-    this.messageText = 'Failed to refresh token. Please log in again.';
-    this.success = false;
-    console.error('Token refresh failed:', refreshErr);
-    // Optionally, redirect to the login page
-  }
 
 /**
  * Handles the selection of a cover image file.

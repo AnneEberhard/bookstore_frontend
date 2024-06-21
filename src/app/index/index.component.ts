@@ -62,6 +62,7 @@ export class IndexComponent implements OnInit{
  * @param {Book} book - The book object to be edited.
  */
   editBook(book: Book): void {
+    this.general.closeBookOverlay();
     this.router.navigate(['/book-edit', book.id]);
   }
 
@@ -82,6 +83,7 @@ export class IndexComponent implements OnInit{
  * @param {Book} book - The book object to be deleted.
  */
   deleteBook(book: Book): void {
+    this.general.closeBookOverlay();
     this.router.navigate(['/book-delete', book.id]);
   }
 }

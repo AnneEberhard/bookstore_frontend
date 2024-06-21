@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { BackendService } from 'src/shared/services/backend.service';
-import { Book, BookGenre } from 'src/shared/services/models.service';
+import { BookGenre } from 'src/shared/services/models.service';
 import { NgForm } from '@angular/forms';
-import { AuthService } from 'src/shared/services/auth.service';
 import { GeneralService } from 'src/shared/services/general.service';
 
 @Component({
@@ -11,17 +10,13 @@ import { GeneralService } from 'src/shared/services/general.service';
   styleUrls: ['./book-create.component.scss']
 })
 export class BookCreateComponent {
-  messageHeader: string = '';
-  messageText: string = '';
-  success: boolean = false;
   genres: BookGenre[] = ['Dystopia', 'Fantasy', 'Historical', 'Spy', 'Contemporary'];
   coverImageFile: File | null = null;
   formData: FormData = new FormData();
 
   constructor(
     private backendService: BackendService,
-    private authService: AuthService,
-    public general: GeneralService) { }
+    public generalService: GeneralService) { }
 
   /**
    * Handles form submission for creating a new book.
@@ -35,7 +30,7 @@ export class BookCreateComponent {
       this.assembleData(form);
       this.backendService.createBook(this.formData).subscribe({
         next: (response) => {
-          this.handleSuccess(response);
+          this.generalService.handleSuccess(response, 'created');
         },
         error: (err) => {
           if (err.status === 401) {
@@ -44,24 +39,24 @@ export class BookCreateComponent {
                 localStorage.setItem('accessToken', res.access);
                 this.backendService.createBook(this.formData).subscribe({
                   next: (response) => {
-                    this.handleSuccess(response)
+                    this.generalService.handleSuccess(response, 'created')
                   },
                   error: (err) => {
-                    this.handleError(err);
+                    this.generalService.handleError(err);
                   }
                 });
               },
               error: (refreshErr) => {
-                this.handleRefreshError(refreshErr);
+                this.generalService.handleRefreshError(refreshErr);
               }
             });
           } else {
-            this.handleError(err);
+            this.generalService.handleError(err);
           }
         }
       });
     }
-    this.general.showOverlay();
+    this.generalService.showOverlay();
   }
 
   /**
@@ -80,46 +75,6 @@ export class BookCreateComponent {
     if (this.coverImageFile) {
       this.formData.set('cover_image', this.coverImageFile, this.coverImageFile.name);
     }
-  }
-
-  /**
-   * Handles successful response after creating a book.
-   * Sets success message and logs the response.
-   * @param {any} response - The response object from the backend.
-   */
-  handleSuccess(response: any) {
-    this.messageHeader = 'Success';
-    this.messageText = 'Book created successfully!';
-    this.success = true;
-    console.log('Book created successfully:', response);
-  }
-
-  /**
-   * Handles errors that occur during book creation.
-   * Sets error message based on the error detail from the backend.
-   * Logs the error details.
-   * @param {{ error: { detail: string } }} err - The error object containing error details.
-   */
-  handleError(err: { error: { detail: string; }; }) {
-    this.messageHeader = 'Error';
-    this.messageText = err.error.detail;
-    this.success = false;
-    console.error('Book creation failed:', err);
-    console.log(err.error.detail);
-  }
-
-  /**
-   * Handles errors that occur while attempting to refresh the access token.
-   * Sets an error message indicating token refresh failure.
-   * Logs the refresh error details.
-   * @param {any} refreshErr - The error object from token refresh attempt.
-   */
-  handleRefreshError(refreshErr: any) {
-    this.messageHeader = 'Error';
-    this.messageText = 'Failed to refresh token. Please log in again.';
-    this.success = false;
-    console.error('Token refresh failed:', refreshErr);
-    // Optionally, redirect to the login page
   }
 
   /**

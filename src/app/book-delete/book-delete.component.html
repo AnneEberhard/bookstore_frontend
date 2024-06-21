@@ -10,12 +10,12 @@
     </div>
     <div id="overlay" class="overlay dNone">
       <div class="overlayBox">
-        <h3>{{ messageHeader }}</h3>
-        <p>{{ messageText }}</p>
+        <h3>{{ generalService.messageHeader }}</h3>
+        <p>{{ generalService.messageText }}</p>
       </div>
       <div class="overlayBottom">
-        <a *ngIf="success" routerLink="/">Go To Index</a>
-        <button *ngIf="!success" (click)="general.closeOverlay()">Try Again</button>
+        <a *ngIf="generalService.success" routerLink="/">Go To Index</a>
+        <button *ngIf="!generalService.success" (click)="generalService.closeOverlay()">Try Again</button>
       </div>
     </div>
   </section>
